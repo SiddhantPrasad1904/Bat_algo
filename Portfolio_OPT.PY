@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # === Load the returns data ===
-stocks_df = pd.read_csv("all_stocks_5yr.csv") # Download dataset from https://www.kaggle.com/datasets/camnugent/sandp500
+stocks_df = pd.read_csv("./all_stocks_5yr.csv") # Download dataset from https://www.kaggle.com/datasets/camnugent/sandp500
 price_data = stocks_df.pivot(index='date', columns='Name', values='close')
 price_data = price_data.sort_index().ffill()
 returns_all = price_data.pct_change().dropna()
@@ -29,7 +30,7 @@ def normalize(weights):
     return weights / total
 
 # === Improved Bat Algorithm ===
-def bat_algorithm(n=30, max_gen=100):
+def bat_algorithm(n=90, max_gen=100):
     dim = returns.shape[1]
     mean_returns = returns.mean()
     cov_matrix = returns.cov()
